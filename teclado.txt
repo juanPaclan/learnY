@@ -1,0 +1,4 @@
+While this is less concise, it can make the stylesheet easier to read. 
+It also allows functions to present more flexible interfaces, providing many arguments without becoming difficult to call. 
+Named arguments can be passed in any order, and arguments with default values can be omitted. 
+Since the named arguments are variable names, underscores and dashes can be used interchangeably.
