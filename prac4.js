@@ -11,7 +11,7 @@
 // otra forma de realizar el programa es esta
 var fs = require('fs')
 var file = process.argv[2]
-fs.readFile(file, function(error, contents){
+fs.readFile(file , function(error, contents){
   if (error){
     return console.log(error)
     }

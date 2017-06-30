@@ -1,13 +1,19 @@
 var fs = require('fs');
-var txt = process.argv[2]
-var datos = fs.readFileSync(txt).toString()
-//var numeroD = datos.split('\n')
-//console.log(numeroD)
-fs.writeFile('./archivo.txt', datos , function(error){
-  if(error){
-    console.log(error);
+const path = require('path');
+
+
+//console.log('lista de archivos');
+fs.readdir(process.argv[2], function(err, files){
+  if (err){
+    return console.error(err);
   }
   else {
-      console.log('el archivo fue creado');
+    files.forEach(function (file){
+      //if(file.endsWith('js') )
+      if(path.extname(file) === '.'+process.argv[3]){
+      //  console.log(path.extname(file));
+        console.log(file);
+      }
+    });
   }
 });
