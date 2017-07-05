@@ -1,15 +1,27 @@
 var fs = require('fs');
 const path = require('path');
 
+ function listado (directorio, filtro, callback){
 
-console.log('lista de archivos');
-fs.readdir("./", function(err, files){
-  if (err){
-    return console.error(err);
-  }
-  files.forEach(function (file){
-if(file.endsWith('js') === true){
-  console.log(file);
+    fs.readdir(directorio, function(err, files){
+      if (err){
+
+       return callback(err, null);
+      }
+        function filtrados (datos){
+          if (path.extname(datos) === '.'+filtro){
+            return datos
+          }
+        }
+        var datos1 = files.forEach(filtrados);
+          return  callback(null, files.filter(filtrados) );
+
+      //callback(null, files);
+    });
 }
-  });
+listado( './' , 'md' , function (err, i){
+  if (err){
+    console.log(err);
+  }
+  console.log(i);
 });
