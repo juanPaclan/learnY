@@ -1,27 +1,17 @@
-var fs = require('fs');
-const path = require('path');
+var http = require('http')
+var bl = require('bl')
 
- function listado (directorio, filtro, callback){
-
-    fs.readdir(directorio, function(err, files){
-      if (err){
-
-       return callback(err, null);
-      }
-        function filtrados (datos){
-          if (path.extname(datos) === '.'+filtro){
-            return datos
-          }
-        }
-        var datos1 = files.forEach(filtrados);
-          return  callback(null, files.filter(filtrados) );
-
-      //callback(null, files);
-    });
-}
-listado( './' , 'md' , function (err, i){
-  if (err){
-    console.log(err);
+callback = function(response) {
+response.pipe(bl(function(err, data){
+  if(err){
+    return console.log(error);
   }
-  console.log(i);
+  dato = data.toString();
+  console.log(dato);
+}));
+}
+
+var datos = [process.argv[2] , process.argv[3] , process.argv[4] ];
+datos.forEach(function(element){
+http.get(element, callback);
 });
