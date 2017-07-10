@@ -1,17 +1,25 @@
-var http = require('http')
-var bl = require('bl')
+var express = require("express"),
+    app = express(),
+    bodyParser  = require("body-parser"),
+    methodOverride = require("method-override");
+    mongoose = require('mongoose');
+    function hora () {
+         var d = new Date()
+         return d.getHours() + d.getMinutes() + d.getSecond();
+       }
 
-callback = function(response) {
-response.pipe(bl(function(err, data){
-  if(err){
-    return console.log(error);
-  }
-  dato = data.toString();
-  console.log(dato);
-}));
-}
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(methodOverride());
 
-var datos = [process.argv[2] , process.argv[3] , process.argv[4] ];
-datos.forEach(function(element){
-http.get(element, callback);
+var router = express.Router();
+
+router.get('/', function(req, res) {
+   res.send(hora());
+});
+
+app.use(router);
+
+app.listen(3000, function() {
+  console.log("Node server running on http://localhost:3000");
 });
