@@ -1,25 +1,49 @@
-var express = require("express"),
-    app = express(),
-    bodyParser  = require("body-parser"),
-    methodOverride = require("method-override");
-    mongoose = require('mongoose');
-    function hora () {
-         var d = new Date()
-         return d.getHours() + d.getMinutes() + d.getSecond();
-       }
+var http = require('http');
+var url = require('url');
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.use(methodOverride());
 
-var router = express.Router();
+function hora () {
+     var d = new Date()
+     var fecha = {
+       "hour" : d.getHours(),
+       "minute" :d.getMinutes(),
+       "second" :d.getSeconds()
+     }
+     return fecha;
+   }
+   function hora2 () {
+        var d = new Date();
+        var fecha = {
+          "unixtime" : d.getTime()
+        }
+        return fecha;
+      }
 
-router.get('/', function(req, res) {
-   res.send(hora());
+var server = http.createServer( function(req, res){
+  if (req.method !== 'GET') {
+      return res.end('send me a GET\n')
+    }
+  var a =  url.parse('/api/parsetime?q=1', true);
+  var b = url.parse('/api/unixtime?q=1', true);
+  var myJson = JSON.stringify(hora());
+  var myJson2 = JSON.stringify(hora2());
+  if(req.url === a){
+    res.writeHead(200, {'content-type' : 'application/json'});
+    res.end(myJson);
+  }
+  if(req.url === b){
+    res.writeHead(200, {'content-type' : 'application/json'});
+    res.end(myJson2);
+
+  }
+  res.end('hola')
+  // res.writeHead(200, {'content-type' : 'application/json'});
+  // res.end(myJson);
+  console.log(req.url)
 });
 
-app.use(router);
-
-app.listen(3000, function() {
-  console.log("Node server running on http://localhost:3000");
-});
+ server.listen(Number(process.argv[2]), function(){
+   console.log('tu sevidor esta listo en: '+this.address().port)
+ });
+//split(sinbolo a fracmentar)
+//subString(pocicion de inicio y final de la cadena)
